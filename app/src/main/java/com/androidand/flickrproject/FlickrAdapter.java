@@ -51,7 +51,6 @@ public class FlickrAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.row_layout, parent, false);
         }
-
         TextView title;
         title =(TextView) convertView.findViewById(R.id.text);
         title.setText(list.get(position));
