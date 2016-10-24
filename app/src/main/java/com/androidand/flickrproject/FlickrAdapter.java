@@ -1,11 +1,16 @@
 package com.androidand.flickrproject;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.androidand.flickrproject.business.EasyFlickrObject;
+import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
@@ -19,14 +24,14 @@ import java.util.List;
 public class FlickrAdapter extends BaseAdapter {
 
     private Context context;
-    private List<String> list;
+    private List<EasyFlickrObject> list;
 
     public FlickrAdapter(Context context) {
         this.context = context;
-        list = new ArrayList();
+        list = new ArrayList<EasyFlickrObject>();
     }
 
-    public void setList(List list) {
+    public void setList(List<EasyFlickrObject> list) {
         this.list = list;
         notifyDataSetChanged();
     }
@@ -52,8 +57,18 @@ public class FlickrAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(context).inflate(R.layout.row_layout, parent, false);
         }
         TextView title;
+        ImageView imageView;
         title =(TextView) convertView.findViewById(R.id.text);
-        title.setText(list.get(position));
+        imageView = (ImageView) convertView.findViewById(R.id.icon);
+        Log.e("onExecuted",list.get(position).getUrl() );
+        String url=list.get(position).getUrl();
+        Picasso.with(context)
+                .load(url)
+                .resize(100, 100)
+                .placeholder(R.mipmap.ic_launcher)
+                .centerCrop()
+                .into(imageView);
+        title.setText(list.get(position).getTitle());
         return convertView;
     }
 }

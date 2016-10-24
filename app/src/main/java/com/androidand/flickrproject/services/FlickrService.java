@@ -72,7 +72,7 @@ public class FlickrService extends Service {
         for (Photo photo : photoList) {
             EasyFlickrObject easyFlickrObject = new EasyFlickrObject();
             easyFlickrObject.setTitle(photo.getTitle());
-            String url = " https://farm" + photo.getFarm() + ".static.flickr.com/" + photo.getServer() + "/" + photo.getId() + "_" + photo.getSecret() + ".jpg";
+            String url = "https://farm" + photo.getFarm() + ".static.flickr.com/" + photo.getServer() + "/" + photo.getId() + "_" + photo.getSecret() + ".jpg";
             easyFlickrObject.setUrl(url);
             easyFlickrObjectList.add(easyFlickrObject);
         }
@@ -98,9 +98,6 @@ public class FlickrService extends Service {
                     flickrServiceListener.onResponse(modelConverter(flickrPhotoResponse));
                     Log.e("onExecuted", resp);
                 }
-                Log.e("onResponse", resp);
-
-                Toast.makeText(context, resp, Toast.LENGTH_LONG).show();
             }
 
             @Override
