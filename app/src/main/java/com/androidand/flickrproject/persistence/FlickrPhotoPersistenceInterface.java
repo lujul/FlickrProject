@@ -10,6 +10,6 @@ import java.util.List;
 
 public interface FlickrPhotoPersistenceInterface {
 
-    public void save(EasyFlickrObject easyFlickrObject);
+    public void saveHistory(EasyFlickrObject easyFlickrObject);
     public List<EasyFlickrObject> getHistory();
 }

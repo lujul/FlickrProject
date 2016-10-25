@@ -10,8 +10,8 @@ import java.util.List;
 
 public interface FlickrManagerInterface {
 
-    public void saveFavory(EasyFlickrObject easyFlickrObject);
-    public List<EasyFlickrObject> getFavory();
+    public void saveHistory(EasyFlickrObject easyFlickrObject);
+    public List<EasyFlickrObject> getHistory();
 
 
 }

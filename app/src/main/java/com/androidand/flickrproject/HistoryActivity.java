@@ -48,9 +48,9 @@ public class HistoryActivity extends AppCompatActivity {
         button_c.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-             //   Intent intent = new Intent(HistoryActivity.this, MapActivity
-           //             .class);
-           //     startActivity(intent);
+               Intent intent = new Intent(HistoryActivity.this, MapsActivity
+                      .class);
+               startActivity(intent);
             }
         });
 

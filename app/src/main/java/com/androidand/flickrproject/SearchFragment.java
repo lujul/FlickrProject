@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.androidand.flickrproject.business.FlickrManager;
 import com.androidand.flickrproject.persistence.EasyFlickrObject;
 import com.androidand.flickrproject.business.FlickrService;
 import com.androidand.flickrproject.business.FlickrServiceListener;
@@ -30,7 +31,6 @@ import java.util.List;
 public class SearchFragment extends Fragment implements View.OnClickListener, FlickrServiceListener, AdapterView.OnItemClickListener {
 
 
-    List<EasyFlickrObject> list;
     FlickrAdapter flick;
     FlickrService flickrService;
     ListView listView;
@@ -38,6 +38,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener, Fl
     Context context;
     boolean mDualPane;
     Bundle savedInstanceState;
+    FlickrManager flickrManager;
 
     @Override
     public void onStart() {
@@ -111,8 +112,12 @@ public class SearchFragment extends Fragment implements View.OnClickListener, Fl
         // fragment directly in the containing UI.
         View detailsFrame = getActivity().findViewById(R.id.fragment_detail);
         mDualPane = detailsFrame != null && detailsFrame.getVisibility() == View.VISIBLE;
-        String title=  ((EasyFlickrObject)flick.getItem(position)).getName();
-        String url=  ((EasyFlickrObject)flick.getItem(position)).getUrl();
+        EasyFlickrObject easyFlickrObject =(EasyFlickrObject)flick.getItem(position);
+        flickrManager = new FlickrManager(context);
+
+        flickrManager.saveHistory(easyFlickrObject);
+        String title= easyFlickrObject.getName();
+        String url=  easyFlickrObject.getUrl();
         if (mDualPane) {
             // We can display everything in-place with fragments, so update
             // the list to highlight the selected item and show the data.
@@ -132,18 +137,12 @@ public class SearchFragment extends Fragment implements View.OnClickListener, Fl
         } else {
             // Otherwise we need to launch a new activity to display
             // the dialog fragment with selected text.
-
             Intent intent = new Intent(getActivity(), DetailActivity.class);
-            intent.putExtra("title", title);
-            intent.putExtra("url", url);
+            intent.putExtra("easyObject",easyFlickrObject);
+            //intent.putExtra("title", title);
+            //intent.putExtra("url", url);
             startActivity(intent);
         }
     }
-
-
-
-
-
-
 
 }

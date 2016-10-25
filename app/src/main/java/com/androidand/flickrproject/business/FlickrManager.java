@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.androidand.flickrproject.persistence.EasyFlickrObject;
 import com.androidand.flickrproject.persistence.FlickrPhotoPersistence;
-import com.androidand.flickrproject.model.FlickrType;
 
 import java.util.List;
 
@@ -19,17 +18,16 @@ public class FlickrManager implements FlickrManagerInterface {
     public FlickrManager(Context context){
         this.context=context;
         flickrPhotoPersistence= new FlickrPhotoPersistence(context);
-
     }
 
     @Override
-    public void saveFavory(EasyFlickrObject easyFlickrObject) {
-        flickrPhotoPersistence.save(easyFlickrObject);
-
+    public void saveHistory(EasyFlickrObject easyFlickrObject) {
+        flickrPhotoPersistence.saveHistory(easyFlickrObject);
     }
 
     @Override
-    public List<EasyFlickrObject> getFavory() {
-        return flickrPhotoPersistence.getHistory();
+    public List<EasyFlickrObject> getHistory() {
+        List<EasyFlickrObject> list=flickrPhotoPersistence.getHistory();
+        return list ;
     }
 }

@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, HistoryActivity
                         .class);
                 startActivity(intent);
-
             }
         });
         Button button_b = (Button) findViewById(R.id.button_b);
@@ -45,8 +44,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mDrawerLayout.closeDrawer(GravityCompat.START);
+            }
+        });
 
-
+        Button button_c = (Button) findViewById(R.id.button_c);
+        button_c.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, MapsActivity
+                        .class);
+                startActivity(intent);
             }
         });
 
