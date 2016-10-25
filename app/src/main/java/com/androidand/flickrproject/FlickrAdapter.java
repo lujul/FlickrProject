@@ -9,10 +9,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.androidand.flickrproject.business.EasyFlickrObject;
+import com.androidand.flickrproject.persistence.EasyFlickrObject;
 import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,7 +66,7 @@ public class FlickrAdapter extends BaseAdapter {
                 .placeholder(R.mipmap.ic_launcher)
                 .centerCrop()
                 .into(imageView);
-        title.setText(list.get(position).getTitle());
+        title.setText(list.get(position).getName());
         return convertView;
     }
 }

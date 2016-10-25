@@ -1,6 +1,6 @@
-package com.androidand.flickrproject.services;
+package com.androidand.flickrproject.business;
 
-import com.androidand.flickrproject.business.FlickrPhotoResponse;
+import com.androidand.flickrproject.model.FlickrPhotoResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

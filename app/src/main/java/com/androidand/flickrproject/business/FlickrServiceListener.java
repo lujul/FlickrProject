@@ -1,6 +1,6 @@
-package com.androidand.flickrproject.services;
+package com.androidand.flickrproject.business;
 
-import com.androidand.flickrproject.business.EasyFlickrObject;
+import com.androidand.flickrproject.persistence.EasyFlickrObject;
 
 import java.util.List;
 

@@ -10,11 +10,28 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <fragment
-            android:id="@+id/fragment_search"
-            android:name="com.androidand.flickrproject.SearchFragment"
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <fragment
+                android:id="@+id/fragment_history_search"
+                android:name="com.androidand.flickrproject.HistoryFragment"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <fragment
+                android:id="@+id/fragment_detail"
+                android:name="com.androidand.flickrproject.DetailFragment"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
 
         <include layout="@layout/drawer" />
 

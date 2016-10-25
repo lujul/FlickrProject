@@ -1,24 +1,20 @@
-package com.androidand.flickrproject.services;
+package com.androidand.flickrproject.business;
 
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.androidand.flickrproject.business.EasyFlickrObject;
-import com.androidand.flickrproject.business.FlickrPhotoResponse;
-import com.androidand.flickrproject.business.Photo;
+import com.androidand.flickrproject.model.FlickrPhotoResponse;
+import com.androidand.flickrproject.model.Photo;
+import com.androidand.flickrproject.persistence.EasyFlickrObject;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -71,7 +67,7 @@ public class FlickrService extends Service {
         List<Photo> photoList = flickrPhotoResponse.getPhotos().getPhoto();
         for (Photo photo : photoList) {
             EasyFlickrObject easyFlickrObject = new EasyFlickrObject();
-            easyFlickrObject.setTitle(photo.getTitle());
+            easyFlickrObject.setName(photo.getTitle());
             String url = "https://farm" + photo.getFarm() + ".static.flickr.com/" + photo.getServer() + "/" + photo.getId() + "_" + photo.getSecret() + ".jpg";
             easyFlickrObject.setUrl(url);
             easyFlickrObjectList.add(easyFlickrObject);

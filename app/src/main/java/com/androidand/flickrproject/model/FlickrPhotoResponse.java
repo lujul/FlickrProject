@@ -1,4 +1,4 @@
-package com.androidand.flickrproject.business;
+package com.androidand.flickrproject.model;
 
 /**
  * Created by Human Booster on 17/10/2016.

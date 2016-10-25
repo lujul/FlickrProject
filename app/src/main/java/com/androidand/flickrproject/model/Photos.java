@@ -1,4 +1,4 @@
-package com.androidand.flickrproject.business;
+package com.androidand.flickrproject.model;
 
 import java.util.List;
 

@@ -16,16 +16,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.androidand.flickrproject.business.EasyFlickrObject;
-import com.androidand.flickrproject.services.FlickrService;
-import com.androidand.flickrproject.services.FlickrServiceListener;
+import com.androidand.flickrproject.persistence.EasyFlickrObject;
+import com.androidand.flickrproject.business.FlickrService;
+import com.androidand.flickrproject.business.FlickrServiceListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
-
-import static android.provider.AlarmClock.EXTRA_MESSAGE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -114,7 +111,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener, Fl
         // fragment directly in the containing UI.
         View detailsFrame = getActivity().findViewById(R.id.fragment_detail);
         mDualPane = detailsFrame != null && detailsFrame.getVisibility() == View.VISIBLE;
-        String title=  ((EasyFlickrObject)flick.getItem(position)).getTitle();
+        String title=  ((EasyFlickrObject)flick.getItem(position)).getName();
         String url=  ((EasyFlickrObject)flick.getItem(position)).getUrl();
         if (mDualPane) {
             // We can display everything in-place with fragments, so update
