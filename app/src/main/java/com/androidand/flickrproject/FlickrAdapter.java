@@ -9,7 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.androidand.flickrproject.persistence.EasyFlickrObject;
+import com.androidand.flickrproject.persistence.EasyFlickrObject2;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -22,14 +22,14 @@ import java.util.List;
 public class FlickrAdapter extends BaseAdapter {
 
     private Context context;
-    private List<EasyFlickrObject> list;
+    private List<EasyFlickrObject2> list;
 
     public FlickrAdapter(Context context) {
         this.context = context;
-        list = new ArrayList<EasyFlickrObject>();
+        list = new ArrayList<EasyFlickrObject2>();
     }
 
-    public void setList(List<EasyFlickrObject> list) {
+    public void setList(List<EasyFlickrObject2> list) {
         this.list = list;
         notifyDataSetChanged();
     }

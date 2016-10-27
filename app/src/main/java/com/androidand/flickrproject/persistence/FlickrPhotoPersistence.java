@@ -2,7 +2,6 @@ package com.androidand.flickrproject.persistence;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.androidand.flickrproject.model.FlickrType;
 import com.raizlabs.android.dbflow.config.FlowConfig;
@@ -18,31 +17,32 @@ import java.util.List;
 public class FlickrPhotoPersistence implements FlickrPhotoPersistenceInterface {
 
     private Context context;
-    List<EasyFlickrObject> list;
+    List<EasyFlickrObject2> list;
+
     public FlickrPhotoPersistence(Context context) {
         FlowManager.init(new FlowConfig.Builder(context)
                 .openDatabasesOnInit(true).build());
     }
 
     @Override
-    public void saveHistory(EasyFlickrObject easyFlickrObject) {
-        easyFlickrObject.setType(FlickrType.HISTORY);
+    public void saveHistory(EasyFlickrObject2 easyFlickrObject2, long lat, long lng) {
+        easyFlickrObject2.setType(FlickrType.HISTORY);
+
         try {
-            easyFlickrObject.save();
-          Log.e("Saved Element",easyFlickrObject.getName());
+            easyFlickrObject2.save();
+            Log.e("Saved Element", easyFlickrObject2.getName());
 
         } catch (Exception e) {
             Log.e("SaveFlickrPhoto", e.toString());
         }
+
     }
 
-
-
     @Override
-    public List<EasyFlickrObject> getHistory() {
-      list=SQLite.select()
-                .from(EasyFlickrObject.class)
-                .where(EasyFlickrObject_Table.type.like(FlickrType.HISTORY.toString()))
+    public List<EasyFlickrObject2> getHistory() {
+        list = SQLite.select()
+                .from(EasyFlickrObject2.class)
+                .where(EasyFlickrObject2_Table.type.like(FlickrType.HISTORY.toString()))
                 .queryList();
         return list;
     }

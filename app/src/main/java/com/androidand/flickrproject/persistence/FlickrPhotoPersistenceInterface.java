@@ -1,7 +1,5 @@
 package com.androidand.flickrproject.persistence;
 
-import com.androidand.flickrproject.model.FlickrType;
-
 import java.util.List;
 
 /**
@@ -10,6 +8,6 @@ import java.util.List;
 
 public interface FlickrPhotoPersistenceInterface {
 
-    public void saveHistory(EasyFlickrObject easyFlickrObject);
-    public List<EasyFlickrObject> getHistory();
+    public void saveHistory(EasyFlickrObject2 easyFlickrObject2, long lat, long lng);
+    public List<EasyFlickrObject2> getHistory();
 }

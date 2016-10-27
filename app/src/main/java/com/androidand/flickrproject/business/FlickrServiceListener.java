@@ -1,6 +1,6 @@
 package com.androidand.flickrproject.business;
 
-import com.androidand.flickrproject.persistence.EasyFlickrObject;
+import com.androidand.flickrproject.persistence.EasyFlickrObject2;
 
 import java.util.List;
 
@@ -9,5 +9,5 @@ import java.util.List;
  */
 
 public interface FlickrServiceListener {
-    public void onResponse(List<EasyFlickrObject> easyList);
+    public void onResponse(List<EasyFlickrObject2> easyList);
 }

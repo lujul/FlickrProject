@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import com.androidand.flickrproject.model.FlickrPhotoResponse;
 import com.androidand.flickrproject.model.Photo;
-import com.androidand.flickrproject.persistence.EasyFlickrObject;
+import com.androidand.flickrproject.persistence.EasyFlickrObject2;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,18 +61,18 @@ public class FlickrService extends Service {
 
     }
 
-    public List<EasyFlickrObject> modelConverter(FlickrPhotoResponse flickrPhotoResponse) {
-        List<EasyFlickrObject> easyFlickrObjectList = new ArrayList<EasyFlickrObject>() {
+    public List<EasyFlickrObject2> modelConverter(FlickrPhotoResponse flickrPhotoResponse) {
+        List<EasyFlickrObject2> easyFlickrObject2List = new ArrayList<EasyFlickrObject2>() {
         };
         List<Photo> photoList = flickrPhotoResponse.getPhotos().getPhoto();
         for (Photo photo : photoList) {
-            EasyFlickrObject easyFlickrObject = new EasyFlickrObject();
-            easyFlickrObject.setName(photo.getTitle());
+            EasyFlickrObject2 easyFlickrObject2 = new EasyFlickrObject2();
+            easyFlickrObject2.setName(photo.getTitle());
             String url = "https://farm" + photo.getFarm() + ".static.flickr.com/" + photo.getServer() + "/" + photo.getId() + "_" + photo.getSecret() + ".jpg";
-            easyFlickrObject.setUrl(url);
-            easyFlickrObjectList.add(easyFlickrObject);
+            easyFlickrObject2.setUrl(url);
+            easyFlickrObject2List.add(easyFlickrObject2);
         }
-        return easyFlickrObjectList;
+        return easyFlickrObject2List;
 
     }
 

@@ -14,7 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.androidand.flickrproject.business.FlickrManager;
-import com.androidand.flickrproject.persistence.EasyFlickrObject;
+import com.androidand.flickrproject.persistence.EasyFlickrObject2;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -29,7 +29,7 @@ public class HistoryFragment extends Fragment implements  AdapterView.OnItemClic
     private FlickrAdapter flick;
     private ListView listView;
     private FlickrManager flickrManager;
-    List<EasyFlickrObject> historyList;
+    List<EasyFlickrObject2> historyList;
     boolean bound = false;
     Context context;
     boolean mDualPane;
@@ -59,7 +59,7 @@ public class HistoryFragment extends Fragment implements  AdapterView.OnItemClic
         return view;
     }
 
-    private List<EasyFlickrObject> findHistoryList (){
+    private List<EasyFlickrObject2> findHistoryList (){
 
         flickrManager = new FlickrManager(context);
         historyList = flickrManager.getHistory();
@@ -76,9 +76,9 @@ public class HistoryFragment extends Fragment implements  AdapterView.OnItemClic
             // We can display everything in-place with fragments, so update
             // the list to highlight the selected item and show the data.
             listView.setItemChecked(position, true);
-            EasyFlickrObject easyFlickrObject = (EasyFlickrObject) flick.getItem(position);
-            String title= easyFlickrObject.getName();
-            String url=  easyFlickrObject.getUrl();
+            EasyFlickrObject2 easyFlickrObject2 = (EasyFlickrObject2) flick.getItem(position);
+            String title= easyFlickrObject2.getName();
+            String url=  easyFlickrObject2.getUrl();
             TextView textView;
             ImageView imageView;
             textView = (TextView) detailsFrame.findViewById(R.id.text_detail);
@@ -96,8 +96,8 @@ public class HistoryFragment extends Fragment implements  AdapterView.OnItemClic
             // Otherwise we need to launch a new activity to display
             // the dialog fragment with selected text.
             Intent intent = new Intent(getActivity(), DetailActivity.class);
-            EasyFlickrObject easyFlickrObject =(EasyFlickrObject)flick.getItem(position);
-           intent.putExtra("easyObject", easyFlickrObject);
+            EasyFlickrObject2 easyFlickrObject2 =(EasyFlickrObject2)flick.getItem(position);
+           intent.putExtra("easyObject", easyFlickrObject2);
             startActivity(intent);
         }
 

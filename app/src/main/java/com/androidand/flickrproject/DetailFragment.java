@@ -10,9 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.androidand.flickrproject.persistence.EasyFlickrObject;
+import com.androidand.flickrproject.persistence.EasyFlickrObject2;
 import com.github.ivbaranov.mfb.MaterialFavoriteButton;
 import com.squareup.picasso.Picasso;
 
@@ -33,9 +32,9 @@ public class DetailFragment extends Fragment {
         favoriteButtonAction(view);
         Intent intent = getActivity().getIntent();
         if (intent.getExtras() != null) {
-            EasyFlickrObject easyFlickrObject= (EasyFlickrObject) intent.getSerializableExtra("easyObject");
-            String title =easyFlickrObject.getName();
-            String url = easyFlickrObject.getUrl();
+            EasyFlickrObject2 easyFlickrObject2 = (EasyFlickrObject2) intent.getSerializableExtra("easyObject");
+            String title = easyFlickrObject2.getName();
+            String url = easyFlickrObject2.getUrl();
             TextView textView;
             ImageView imageView;
             textView = (TextView) view.findViewById(R.id.text_detail);
@@ -55,7 +54,7 @@ public class DetailFragment extends Fragment {
 
         MaterialFavoriteButton materialFavoriteButtonNice =
                 (MaterialFavoriteButton) view.findViewById(R.id.favorite_nice);
-        materialFavoriteButtonNice.setFavorite(true, false);
+     //   materialFavoriteButtonNice.setFavorite(true, false);
         materialFavoriteButtonNice.setOnFavoriteChangeListener(
                 new MaterialFavoriteButton.OnFavoriteChangeListener() {
                     @Override
@@ -67,7 +66,5 @@ public class DetailFragment extends Fragment {
                         }
                     }
                 });
-
     }
-
 }

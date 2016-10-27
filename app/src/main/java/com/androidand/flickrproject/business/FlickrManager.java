@@ -2,7 +2,7 @@ package com.androidand.flickrproject.business;
 
 import android.content.Context;
 
-import com.androidand.flickrproject.persistence.EasyFlickrObject;
+import com.androidand.flickrproject.persistence.EasyFlickrObject2;
 import com.androidand.flickrproject.persistence.FlickrPhotoPersistence;
 
 import java.util.List;
@@ -21,13 +21,13 @@ public class FlickrManager implements FlickrManagerInterface {
     }
 
     @Override
-    public void saveHistory(EasyFlickrObject easyFlickrObject) {
-        flickrPhotoPersistence.saveHistory(easyFlickrObject);
+    public void saveHistory(EasyFlickrObject2 easyFlickrObject2, long lat, long lng) {
+        flickrPhotoPersistence.saveHistory(easyFlickrObject2,lat,lng);
     }
 
     @Override
-    public List<EasyFlickrObject> getHistory() {
-        List<EasyFlickrObject> list=flickrPhotoPersistence.getHistory();
+    public List<EasyFlickrObject2> getHistory() {
+        List<EasyFlickrObject2> list=flickrPhotoPersistence.getHistory();
         return list ;
     }
 }

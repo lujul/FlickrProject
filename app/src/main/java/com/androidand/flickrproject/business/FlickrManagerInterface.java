@@ -1,6 +1,6 @@
 package com.androidand.flickrproject.business;
 
-import com.androidand.flickrproject.persistence.EasyFlickrObject;
+import com.androidand.flickrproject.persistence.EasyFlickrObject2;
 
 import java.util.List;
 
@@ -10,8 +10,8 @@ import java.util.List;
 
 public interface FlickrManagerInterface {
 
-    public void saveHistory(EasyFlickrObject easyFlickrObject);
-    public List<EasyFlickrObject> getHistory();
+    public void saveHistory(EasyFlickrObject2 easyFlickrObject2, long lat, long lng);
+    public List<EasyFlickrObject2> getHistory();
 
 
 }

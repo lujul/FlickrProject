@@ -12,9 +12,9 @@ import java.io.Serializable;
  * Created by Human Booster on 17/10/2016.
  */
 
-@Table(database = FlickrDataBase.class)
-public class EasyFlickrObject extends BaseModel implements Serializable{
-    public EasyFlickrObject(){
+@Table(database = FlickrDBase.class)
+public class EasyFlickrObject2 extends BaseModel implements Serializable{
+    public EasyFlickrObject2(){
     }
 
     @Column
@@ -31,10 +31,10 @@ public class EasyFlickrObject extends BaseModel implements Serializable{
     FlickrType type;
 
     @Column
-    Double lat;
+    long lat2;
 
     @Column
-    Double lng;
+    long lng2;
 
     @Column
     int count;
@@ -74,22 +74,6 @@ public class EasyFlickrObject extends BaseModel implements Serializable{
         this.id = id;
     }
 
-    public Double getLat() {
-        return lat;
-    }
-
-    public void setLat(Double lat) {
-        this.lat = lat;
-    }
-
-    public Double getLng() {
-        return lng;
-    }
-
-    public void setLng(Double lng) {
-        this.lng = lng;
-    }
-
     public int getCount() {
         return count;
     }
@@ -104,5 +88,21 @@ public class EasyFlickrObject extends BaseModel implements Serializable{
 
     public void setSearch(String search) {
         this.search = search;
+    }
+
+    public long getLat2() {
+        return lat2;
+    }
+
+    public void setLat2(long lat2) {
+        this.lat2 = lat2;
+    }
+
+    public long getLng2() {
+        return lng2;
+    }
+
+    public void setLng2(long lng2) {
+        this.lng2 = lng2;
     }
 }

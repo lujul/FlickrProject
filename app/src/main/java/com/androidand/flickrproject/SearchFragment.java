@@ -1,11 +1,17 @@
 package com.androidand.flickrproject;
 
+import android.Manifest;
+import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,11 +22,18 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.androidand.flickrproject.business.FlickrManager;
-import com.androidand.flickrproject.persistence.EasyFlickrObject;
+import com.androidand.flickrproject.persistence.EasyFlickrObject2;
 import com.androidand.flickrproject.business.FlickrService;
 import com.androidand.flickrproject.business.FlickrServiceListener;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.GoogleMap;
+
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -28,8 +41,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SearchFragment extends Fragment implements View.OnClickListener, FlickrServiceListener, AdapterView.OnItemClickListener {
-
+public class SearchFragment extends Fragment implements View.OnClickListener, FlickrServiceListener, AdapterView.OnItemClickListener, GoogleApiClient.ConnectionCallbacks {
 
     FlickrAdapter flick;
     FlickrService flickrService;
@@ -39,6 +51,10 @@ public class SearchFragment extends Fragment implements View.OnClickListener, Fl
     boolean mDualPane;
     Bundle savedInstanceState;
     FlickrManager flickrManager;
+    GoogleApiClient mGoogleApiClient;
+    Location myLocation;
+    Location mLastLocation;
+    public GoogleMap mMap;
 
     @Override
     public void onStart() {
@@ -46,6 +62,66 @@ public class SearchFragment extends Fragment implements View.OnClickListener, Fl
         context = getActivity();
         Intent intent = new Intent(context, FlickrService.class);
         getActivity().bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+
+
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Check Permissions Now
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    7);
+        } else {
+            Log.e("connexion", "onStart");
+            // permission has been granted, continue as usual
+
+            connectClient();
+            // Log.e("location", Location.)
+        }
+    }
+
+    protected void connectClient() {
+        // Connect the client.
+        if (mGoogleApiClient == null) {
+            mGoogleApiClient = new GoogleApiClient.Builder(getContext())
+                    .enableAutoManage(getActivity() /* FragmentActivity */, new GoogleApiClient.OnConnectionFailedListener() {
+                                @Override
+                                public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+                                    Log.e("connexion", "failed");
+                                }
+                            }
+                    )
+                    .addConnectionCallbacks(this).addApi(LocationServices.API).build();
+        }
+    }
+
+
+    @Override
+    public void onConnected(Bundle bundle) {
+        Log.e("onConnected", "ok");
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            Log.e("oncp", "ok");
+
+            //mMap = new GoogleMap();
+            mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+                    mGoogleApiClient);
+
+            if (mLastLocation != null) {
+                Log.e("mLastLocation", "ok");
+
+                Toast.makeText(getActivity(), "Latitude:" + mLastLocation.getLatitude() + ", Longitude:" + mLastLocation.getLongitude(), Toast.LENGTH_LONG).show();
+            } else {
+                Log.e("mLastLocation", "pas ok");
+            }
+        } else {
+            Log.e("google permission", "pas ok");
+            // Permission was denied or request was cancelled
+        }
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        mGoogleApiClient.connect();
     }
 
     public SearchFragment() {
@@ -63,8 +139,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener, Fl
         listView.setAdapter(flick);
         Button button = (Button) view.findViewById(R.id.button);
         button.setOnClickListener(this);
-        this.savedInstanceState=savedInstanceState;
-
+        this.savedInstanceState = savedInstanceState;
 
         return view;
     }
@@ -101,7 +176,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener, Fl
     }
 
     @Override
-    public void onResponse(List<EasyFlickrObject> easyList) {
+    public void onResponse(List<EasyFlickrObject2> easyList) {
         flick.setList(easyList);
         listView.setOnItemClickListener(this);
     }
@@ -112,12 +187,13 @@ public class SearchFragment extends Fragment implements View.OnClickListener, Fl
         // fragment directly in the containing UI.
         View detailsFrame = getActivity().findViewById(R.id.fragment_detail);
         mDualPane = detailsFrame != null && detailsFrame.getVisibility() == View.VISIBLE;
-        EasyFlickrObject easyFlickrObject =(EasyFlickrObject)flick.getItem(position);
+        EasyFlickrObject2 easyFlickrObject2 = (EasyFlickrObject2) flick.getItem(position);
         flickrManager = new FlickrManager(context);
 
-        flickrManager.saveHistory(easyFlickrObject);
-        String title= easyFlickrObject.getName();
-        String url=  easyFlickrObject.getUrl();
+
+        flickrManager.saveHistory(easyFlickrObject2, Long.MAX_VALUE, Long.MAX_VALUE);
+        String title = easyFlickrObject2.getName();
+        String url = easyFlickrObject2.getUrl();
         if (mDualPane) {
             // We can display everything in-place with fragments, so update
             // the list to highlight the selected item and show the data.
@@ -138,11 +214,40 @@ public class SearchFragment extends Fragment implements View.OnClickListener, Fl
             // Otherwise we need to launch a new activity to display
             // the dialog fragment with selected text.
             Intent intent = new Intent(getActivity(), DetailActivity.class);
-            intent.putExtra("easyObject",easyFlickrObject);
+            intent.putExtra("easyObject", easyFlickrObject2);
             //intent.putExtra("title", title);
             //intent.putExtra("url", url);
             startActivity(intent);
         }
     }
+
+    public void onRequestPermissionsResult(int requestCode,
+                                           String[] permissions,
+                                           int[] grantResults) {
+        if (requestCode == 7) {
+            if (grantResults.length == 1
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                Log.e("google permission", "ok");
+                mGoogleApiClient = new GoogleApiClient.Builder(getContext())
+                        .enableAutoManage(getActivity() /* FragmentActivity */, new GoogleApiClient.OnConnectionFailedListener() {
+                                    @Override
+                                    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+                                    }
+                                }
+                        ).addApi(LocationServices.API).build();
+
+            }
+            // We can now safely use the API we requested access to
+            //     Location myLocation =
+            //         LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+            else {
+                Log.e("google permission", "pas ok");
+                // Permission was denied or request was cancelled
+            }
+        }
+    }
+
 
 }
