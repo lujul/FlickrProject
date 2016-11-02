@@ -28,9 +28,13 @@ import com.androidand.flickrproject.business.FlickrManager;
 import com.androidand.flickrproject.persistence.EasyFlickrObject2;
 import com.androidand.flickrproject.business.FlickrService;
 import com.androidand.flickrproject.business.FlickrServiceListener;
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.ContentViewEvent;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.GoogleMap;
 
@@ -38,10 +42,12 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import hugo.weaving.DebugLog;
+
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SearchFragment extends Fragment implements View.OnClickListener, FlickrServiceListener, AdapterView.OnItemClickListener, GoogleApiClient.ConnectionCallbacks {
+public class SearchFragment extends Fragment implements LocationListener,View.OnClickListener, FlickrServiceListener, AdapterView.OnItemClickListener, GoogleApiClient.ConnectionCallbacks {
 
     FlickrAdapter flick;
     FlickrService flickrService;
@@ -52,9 +58,12 @@ public class SearchFragment extends Fragment implements View.OnClickListener, Fl
     Bundle savedInstanceState;
     FlickrManager flickrManager;
     GoogleApiClient mGoogleApiClient;
-    Location myLocation;
     Location mLastLocation;
+    private LocationRequest mLocationRequest;
+    private long UPDATE_INTERVAL = 60000;  /* 60 secs */
+    private long FASTEST_INTERVAL = 5000; /* 5 secs */
     public GoogleMap mMap;
+
 
     @Override
     public void onStart() {
@@ -62,7 +71,6 @@ public class SearchFragment extends Fragment implements View.OnClickListener, Fl
         context = getActivity();
         Intent intent = new Intent(context, FlickrService.class);
         getActivity().bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-
 
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -110,6 +118,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener, Fl
                 Log.e("mLastLocation", "ok");
 
                 Toast.makeText(getActivity(), "Latitude:" + mLastLocation.getLatitude() + ", Longitude:" + mLastLocation.getLongitude(), Toast.LENGTH_LONG).show();
+                startLocationUpdates();
             } else {
                 Log.e("mLastLocation", "pas ok");
             }
@@ -117,11 +126,35 @@ public class SearchFragment extends Fragment implements View.OnClickListener, Fl
             Log.e("google permission", "pas ok");
             // Permission was denied or request was cancelled
         }
+
+    }
+    protected void startLocationUpdates() {
+        mLocationRequest = new LocationRequest();
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+        mLocationRequest.setInterval(UPDATE_INTERVAL);
+        mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient,
+                    mLocationRequest, this);
+        }
+
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        // Report to the UI that the location was updated
+        Log.e("onLocatedChanged","yes");
+        String msg = "Updated Location: " +
+                Double.toString(location.getLatitude()) + "," +
+                Double.toString(location.getLongitude());
+        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onConnectionSuspended(int i) {
-        mGoogleApiClient.connect();
+        Log.e("onConnexionSuspended","");
+        connectClient();
     }
 
     public SearchFragment() {
@@ -170,6 +203,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener, Fl
         }
     };
 
+    @DebugLog
     @Override
     public void onClick(View v) {
         flickrService.goFlickrPhotoResponse("banane");
@@ -189,7 +223,6 @@ public class SearchFragment extends Fragment implements View.OnClickListener, Fl
         mDualPane = detailsFrame != null && detailsFrame.getVisibility() == View.VISIBLE;
         EasyFlickrObject2 easyFlickrObject2 = (EasyFlickrObject2) flick.getItem(position);
         flickrManager = new FlickrManager(context);
-
 
         flickrManager.saveHistory(easyFlickrObject2, Long.MAX_VALUE, Long.MAX_VALUE);
         String title = easyFlickrObject2.getName();

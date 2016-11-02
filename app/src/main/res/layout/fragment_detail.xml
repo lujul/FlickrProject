@@ -16,6 +16,7 @@
         app:mfb_rotation_duration="400"
         app:mfb_type="star" />
 
+
     <TextView
         android:id="@+id/text_detail"
         android:layout_width="wrap_content"
@@ -25,6 +26,8 @@
         android:id="@+id/image_detail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></ImageView>
+
+
 
 
 </LinearLayout>

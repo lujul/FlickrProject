@@ -37,6 +37,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        //String url= " http://maps.google.com/maps/api/staticmap?center="+lat+","+lng+"&zoom=15&size=400x225&sensor=true";
+        //Picasso.with(this).load(url).into(imageView)
 
     }
 
@@ -58,7 +60,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
         //WE NEED TO DO THAT FIRST TIME WITH EMULATOR TO ENABLE POSITION
-     /*   if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -70,7 +72,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             return;
         }
         Log.e("setLocation","true");
-        mMap.setMyLocationEnabled(true);*/
+        mMap.setMyLocationEnabled(true);
 
     }
 

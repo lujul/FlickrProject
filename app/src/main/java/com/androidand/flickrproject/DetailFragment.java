@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.androidand.flickrproject.persistence.EasyFlickrObject2;
 import com.github.ivbaranov.mfb.MaterialFavoriteButton;
+import com.google.android.gms.common.ConnectionResult;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -50,6 +51,7 @@ public class DetailFragment extends Fragment {
 
         return view;
     }
+
     private void favoriteButtonAction(View view){
 
         MaterialFavoriteButton materialFavoriteButtonNice =
